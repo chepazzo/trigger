@@ -140,7 +140,16 @@ class TriggerXMLRPCServer(xmlrpc.XMLRPC):
             log.msg("    Unable to load module: %s" % mod_name)
             return None
         else:
-            handler = getattr(module, 'xmlrpc_' + task_name)
+            handler = getattr(module, 'xmlrpc_' + task_name, None)
+            if handler == None:
+                class_name = module.class_name
+                myclass = getattr(module, class_name, None)
+                def xmlrpc_dummy(*args, **kwargs):
+                    c = myclass(*args, **kwargs)
+                    d = c.run()
+                    return d
+                handler = xmlrpc_dummy
+
             # XMLRPC methods will not accept kwargs. Instead, we pass 2 position
             # args: args and kwargs, to a shell method (dummy) that will explode
             # them when sending to the user defined method (handler).
