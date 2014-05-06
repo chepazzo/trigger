@@ -59,6 +59,8 @@ INTERNAL_NETWORKS = [
 ]
 
 # The tuple of supported vendors derived from the values of VENDOR_MAP
+##@ Might want to change this to a list if we are going to dynamically update 
+##@ the list when loading plugins.
 SUPPORTED_VENDORS = (
     'a10',
     'arista',
@@ -77,6 +79,10 @@ SUPPORTED_VENDORS = (
     'pica8',
 )
 VALID_VENDORS = SUPPORTED_VENDORS # For backwards compatibility
+
+TRIGGER_PLUGINS = (
+    'trigger.twister.pica8',
+)
 
 # A mapping of manufacturer attribute values to canonical vendor name used by
 # Trigger. These single-word, lowercased canonical names are used throughout
